@@ -290,3 +290,21 @@ const mappedStudentNames = students.map(function (student) {
   return student.age;
 });
 console.log("mappedStudentNames:", mappedStudentNames);
+
+console.clear();
+
+function makeCopy(array, startingValue, endValue) {
+  const copy = [];
+
+  const start = startingValue || 0;
+  const end = endValue || array.length;
+
+  for (let i = start; i < end; i++) {
+    copy.push(array[i]);
+  }
+
+  return copy;
+}
+
+const copyOfStudents = students.slice(3, 7);
+console.log("copyOfStudents:", copyOfStudents);
