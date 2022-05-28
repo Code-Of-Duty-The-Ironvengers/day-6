@@ -251,3 +251,42 @@ const tiffany = students.find(function (student) {
 });
 
 console.log("tiffany:", tiffany);
+
+console.clear();
+
+const justStudentNames = [];
+
+for (const student of students) {
+  justStudentNames.push(student.name);
+}
+
+console.log("justStudentNames:", justStudentNames);
+
+function iterateOverEverything(array, functino) {
+  const targetArray = [];
+
+  for (let i = 0; i < array.length; i++) {
+    //
+    const result = functino(array[i], i, array);
+    //
+    targetArray.push(result);
+  }
+
+  return targetArray;
+}
+
+const justStudentNamesSpecial = iterateOverEverything(
+  students,
+  function (student) {
+    return student.name;
+  }
+);
+console.log("justStudentNamesSpecial:", justStudentNamesSpecial);
+
+console.clear();
+// map
+
+const mappedStudentNames = students.map(function (student) {
+  return student.name;
+});
+console.log("mappedStudentNames:", mappedStudentNames);
