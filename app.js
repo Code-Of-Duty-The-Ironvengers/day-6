@@ -16,6 +16,9 @@ const anon = function () {
 anon();
 
 const students = [
+  {
+    name: "Ethan",
+  },
   { name: "Guillermo", from: "Spain", age: 28, livesIn: "Avila", height: 179 },
 
   {
@@ -125,9 +128,6 @@ const students = [
     age: 27,
     livesIn: "Amsterdam",
     height: 186,
-  },
-  {
-    name: "Ethan",
   },
 ];
 // box with students
@@ -287,6 +287,6 @@ console.clear();
 // map
 
 const mappedStudentNames = students.map(function (student) {
-  return student.name;
+  return student.age;
 });
 console.log("mappedStudentNames:", mappedStudentNames);
