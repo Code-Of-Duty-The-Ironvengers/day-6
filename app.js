@@ -16,11 +16,17 @@ const anon = function () {
 anon();
 
 const students = [
-  {
-    name: "Ethan",
-  },
+  //   {
+  //     name: "Ethan",
+  //   },
   { name: "Guillermo", from: "Spain", age: 28, livesIn: "Avila", height: 179 },
-
+  {
+    name: "Pelayo",
+    age: 39,
+    from: "Spain",
+    livesIn: "Huelva",
+    height: 177,
+  },
   {
     name: "Asem",
     age: 37,
@@ -35,13 +41,7 @@ const students = [
     livesIn: "Fundao",
     height: 158,
   },
-  {
-    name: "Pelayo",
-    age: 39,
-    from: "Spain",
-    livesIn: "Huelva",
-    height: 177,
-  },
+
   {
     name: "Tony",
     age: 32,
@@ -262,25 +262,9 @@ for (const student of students) {
 
 console.log("justStudentNames:", justStudentNames);
 
-function iterateOverEverything(array, functino) {
-  const targetArray = [];
-
-  for (let i = 0; i < array.length; i++) {
-    //
-    const result = functino(array[i], i, array);
-    //
-    targetArray.push(result);
-  }
-
-  return targetArray;
-}
-
-const justStudentNamesSpecial = iterateOverEverything(
-  students,
-  function (student) {
-    return student.name;
-  }
-);
+const justStudentNamesSpecial = customMap(students, function (student) {
+  return student.name;
+});
 console.log("justStudentNamesSpecial:", justStudentNamesSpecial);
 
 console.clear();
@@ -308,3 +292,126 @@ function makeCopy(array, startingValue, endValue) {
 
 const copyOfStudents = students.slice(3, 7);
 console.log("copyOfStudents:", copyOfStudents);
+
+console.clear();
+
+// forEach
+
+function customMap(array, functino) {
+  const targetArray = [];
+
+  for (let i = 0; i < array.length; i++) {
+    //
+    const result = functino(array[i], i, array);
+    //
+    targetArray.push(result);
+  }
+
+  return targetArray;
+}
+
+function customForEach(array, functino) {
+  for (let i = 0; i < array.length; i++) {
+    functino(array[i], i, array);
+  }
+}
+
+students.forEach(function (student) {
+  console.log("INSIDE FOR EACH: ", student);
+});
+
+console.clear();
+console.log("BIG SCARY METHOD: REDUCE");
+
+function customReducer(array, functino, startingValue) {
+  let starting;
+  if (startingValue) {
+    starting = startingValue;
+  } else {
+    starting = array[0];
+  }
+
+  for (let i = 0; i < array.length; i++) {
+    const newValue = functino(starting, array[i]);
+
+    starting = newValue;
+  }
+}
+
+// accumulator: guillermo age: 28
+// value: students[1] -> asem
+// 65 +
+const sumOfAllAges = students.reduce(function (accumulated, current) {
+  console.log("accumulated:", accumulated);
+  console.log("adding :", current.name, "'s age which is ", current.age);
+  console.log("WILL RETURN :", current.age + accumulated);
+  return accumulated + current.age;
+}, 0);
+
+console.clear();
+console.log("sumOfAllAges:", sumOfAllAges / students.length);
+
+const allHeights = students.reduce(function (
+  previousCalculation,
+  currentStudent
+) {
+  return previousCalculation + currentStudent.height;
+},
+0);
+console.log("allHeights:", allHeights / students.length);
+
+console.clear();
+
+const allCountries = students.reduce(function (acc, student) {
+  // if acc has the key of students (from)
+  // if it does, add 1
+  // else start at 1
+  //   1st student: Guillermo
+  // 1st accumulator: {}
+  // if {} has a key equal to Guillermo.From -> Spain {} Spain
+
+  //   ----
+  // 2nd loop: Pelayo
+  // acc {Spain: 1}
+  // is there a property called Spain, in the accumulator?
+  // 3dr Loop: Asem
+  // acc{ Spain: 2}
+  // 4th Loop: Diana {Lebanon}
+  // acc { Spain: 2, Syria : 1}
+  //   there is no key lebanon, right now
+  //   Ethan: {Lebanon}
+  // acc {Spain: 2, Syria: 1, Lebanon: 1}
+
+  if (acc[student.from]) {
+    //   1st loop, there is no acc.Spain, so we skip the if statement
+    // 2nd loop, there is, amazing!
+    // acc.Spain++ {Spain : 2}
+    //    acc.Lebanon++
+    acc[student.from]++;
+  } else {
+    //   acc.Span = 1
+    // acc.Syria = 1
+    // acc.Lebanon  = 1
+    acc[student.from] = 1;
+  }
+
+  //   {Spain: 2, Syria : 1}
+  //   {Spain: 2, Syria: 1, Lebanon: 1}
+  return acc;
+}, {});
+
+console.log("allCountries:", allCountries);
+
+console.clear();
+console.log("BEFORE SORT, ", students);
+
+const sortedStudentsByName = students.slice().sort(function (a, b) {
+  return a.age - b.age;
+});
+console.log("sortedStudentsByName:", sortedStudentsByName);
+console.log("AFTER SORT: ", students);
+
+console.clear();
+
+const studentsReversed = students.slice().reverse();
+console.log("REVERSED: ", studentsReversed);
